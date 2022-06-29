@@ -89,7 +89,8 @@ jobs:
       - run:
           name: test-frontend
           working_directory: ./frontend
-          command: npm install test
+          command: npm install
+          command: npm run test
                 
   test-backend:
     docker:

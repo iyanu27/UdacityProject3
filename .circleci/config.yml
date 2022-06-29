@@ -203,10 +203,9 @@ jobs:
     docker:
       - image: python:3.9-alpine
     steps:
-      - checkout # Checkout code from git
-      # Add ssh keys with fingerprint
+      - checkout 
       - add_ssh_keys:
-          fingerprints: ["31:ba:95:73:af:5d:f4:40:fa:aa:64:1d:05:25:a4:59"]
+          fingerprints: ["47:2a:1c:9c:cd:13:88:76:ca:ae:bc:41:5a:83:38:df"]
       - run:
           name: Install utilities tar and gzip
           command: |

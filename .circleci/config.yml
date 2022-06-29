@@ -115,15 +115,14 @@ jobs:
       - run:
           name: scan-frontend
           working_directory: ./frontend
-          command: |
-            npm install
-            npm audit fix --audit-level=critical
+          command: npm audit --audit-level=critical
 
   scan-backend:
     docker:
       - image: circleci/node:13.8.0
     steps:
-      - checkout 
+      - checkout # Checkout code from git
+      # Restore from cache
       - restore_cache:
           keys: [backend-build]
       - run:
@@ -144,14 +143,14 @@ jobs:
             yum install -y tar gzip 
       - attach_workspace:
           at: ~/
-      # - run:
-      #     name: get old workflow id
-      #     command: |
-      #       export OldWorkflowID=$(aws cloudformation \
-      #         list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
-      #         --no-paginate --output text)
-      #       echo "${OldWorkflowID}" > ~/old-workflow-id
-      #       echo "old-workflow-id: ${OldWorkflowID}" 
+      - run:
+          name: get old workflow id
+          command: |
+            export OldWorkflowID=$(aws cloudformation \
+              list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+              --no-paginate --output text)
+            echo "${OldWorkflowID}" > ~/old-workflow-id
+            echo "old-workflow-id: ${OldWorkflowID}" 
       - run:
           name: Ensure back-end infrastructure exists
           command: |
@@ -203,9 +202,10 @@ jobs:
     docker:
       - image: python:3.9-alpine
     steps:
-      - checkout 
+      - checkout # Checkout code from git
+      # Add ssh keys with fingerprint
       - add_ssh_keys:
-          fingerprints: ["47:2a:1c:9c:cd:13:88:76:ca:ae:bc:41:5a:83:38:df"]
+          fingerprints: ["31:ba:95:73:af:5d:f4:40:fa:aa:64:1d:05:25:a4:59"]
       - run:
           name: Install utilities tar and gzip
           command: |
@@ -314,7 +314,7 @@ jobs:
       - checkout # Checkout code from git
       # Add ssh keys with fingerprint
       - add_ssh_keys:
-          fingerprints: ["31:ba:95:73:af:5d:f4:40:fa:aa:64:1d:05:25:a4:59"]
+          fingerprints: ["47:2a:1c:9c:cd:13:88:76:ca:ae:bc:41:5a:83:38:df"]
       # attach workspace
       - run:
           name: Install dependencies
@@ -456,7 +456,7 @@ workflows:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
           filters:
             branches:
-              only: [main]
+              only: [master]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - check-postgres-connectivity:

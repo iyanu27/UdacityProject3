@@ -144,14 +144,14 @@ jobs:
             yum install -y tar gzip 
       - attach_workspace:
           at: ~/
-      - run:
-          name: get old workflow id
-          command: |
-            export OldWorkflowID=$(aws cloudformation \
-              list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
-              --no-paginate --output text)
-            echo "${OldWorkflowID}" > ~/old-workflow-id
-            echo "old-workflow-id: ${OldWorkflowID}" 
+      # - run:
+      #     name: get old workflow id
+      #     command: |
+      #       export OldWorkflowID=$(aws cloudformation \
+      #         list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+      #         --no-paginate --output text)
+      #       echo "${OldWorkflowID}" > ~/old-workflow-id
+      #       echo "old-workflow-id: ${OldWorkflowID}" 
       - run:
           name: Ensure back-end infrastructure exists
           command: |

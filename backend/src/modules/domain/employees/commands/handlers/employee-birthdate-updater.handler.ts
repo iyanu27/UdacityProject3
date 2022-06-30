@@ -1,4 +1,4 @@
-import * as moment from 'moment-timezone';
+const moment = require('moment');
 import { BaseCommandHandler } from '../../../../common/commands';
 import { UpdateEmployeeBirthdate } from '../update-employee-birthdate.command';
 import { CommandHandler } from '@nestjs/cqrs';
@@ -21,7 +21,7 @@ export class EmployeeBirthDateUpdater extends BaseCommandHandler<UpdateEmployeeB
 
     employee.birthdate = moment(birthdate)
     .utc()
-    .format();
+    .format('MM-DD-YYYY');
 
     await this.employeeRepository.save(employee);
   }

@@ -1,0 +1,26 @@
+- name: "Update/upgrade packages"
+  become: yes
+  apt:
+    update_cache: yes
+    upgrade: yes
+    autoremove: yes
+
+- name: "Install dependencies."
+  become: yes
+  apt:
+    update_cache: yes
+    name: ["tar", "gzip"]
+    state: latest
+
+- name: "Install Node.js 13"
+  become: yes
+  shell: |
+    curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash - && sudo apt-get install -y nodejs
+
+- name: "Install PM2"
+  become: yes
+  npm:
+    name: pm2
+    global: yes
+    production: yes
+    state: present

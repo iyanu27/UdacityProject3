@@ -1,60 +1,38 @@
-- name: create the application folder
+---
+- name: 'update and upgrade packages.'
   become: yes
-  ansible.builtin.file:
-    path: /opt/udapeople/backend
-    state: directory
-    mode: '0755'
-
-- name: copy backend archive
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400
+- name: remove unneeded deps
   become: yes
-  copy:
-    src: /root/project/backend.tar.gz
-    dest: /opt/udapeople/backend.tar.gz
-
-- name: extract backend.tar.gz
+  apt:
+    autoremove: yes
+- name: install deps
+  become: yes
+  apt:
+    name: ['nodejs', 'npm']
+    state: latest
+    update_cache: yes
+- name: install pm2
+  become: yes
+  npm:
+    name: pm2
+    global: yes
+    state: latest
+    production: yes
+- name: extract artifact
   become: yes
   unarchive:
-    src: /opt/udapeople/backend.tar.gz
-    dest: /opt/udapeople
-    remote_src: yes
-
-- name: debug ls
-  command: ls -l /opt/udapeople/backend
-  register: ls_out
-
-- debug: var=ls_out.stdout_lines
-
-- name: node version
-  command: node --version
-  register: node_ver_out
-
-- debug: var=node_ver_out.stdout_lines
-
-- name: build npm dependencies
+    src: files/artifact.tar.gz
+    dest: .
+# - name: link node to nodejs (if you installed nodejs)
+#   become: yes
+#   shell: |
+#     ln -s /usr/bin/nodejs /usr/bin/node
+- name: start app
   become: yes
-  command: npm install
-  args:
-    chdir: /opt/udapeople/backend
-
-- name: build npm backend 
-  become: yes
-  command: npm run build
-  args:
-    chdir: /opt/udapeople/backend
-
-- name: start PM2 service
-  become: yes
-  command: pm2 start npm -- run start
-  args:
-    chdir: /opt/udapeople/backend
-  environment:
-    ENVIRONMENT: production
-    TYPEORM_CONNECTION: postgres
-    TYPEORM_ENTITIES: ./src/modules/domain/**/*.entity.ts
-    TYPEORM_MIGRATIONS_DIR: ./src/migrations
-    TYPEORM_MIGRATIONS: ./src/migrations./*.ts
-    TYPEORM_HOST: "{{ lookup('env', 'TYPEORM_HOST') }}"
-    TYPEORM_PORT: "{{ lookup('env', 'TYPEORM_PORT') }}"
-    TYPEORM_USERNAME: "{{ lookup('env', 'TYPEORM_USERNAME') }}"
-    TYPEORM_PASSWORD: "{{ lookup('env', 'TYPEORM_PASSWORD') }}"
-    TYPEORM_DATABASE: "{{ lookup('env', 'TYPEORM_DATABASE') }}"
+  shell: |
+    pm2 stop all
+    pm2 start npm -- start

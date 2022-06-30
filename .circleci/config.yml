@@ -618,28 +618,22 @@ jobs:
 workflows:
   default:
     jobs:
-      - get-aws-params:
-          filters:
-            branches:
-              only: [master, dev-branch]
-      - blue-deployment:
-          requires: [get-aws-params]
-          filters:
-            branches:
-              only: [master, dev-branch]
-      - deploy-prometheus-monitor:
-          requires: [get-aws-params]
-          filters:
-            branches:
-              only: [master, dev-branch]
+      # - get-aws-params:
+      #     filters:
+      #       branches:
+      #         only: [master, dev-branch]
+      # - blue-deployment:
+      #     requires: [get-aws-params]
+      #     filters:
+      #       branches:
+      #         only: [master, dev-branch]
+      # - deploy-prometheus-monitor:
+      #     requires: [get-aws-params]
+      #     filters:
+      #       branches:
+      #         only: [master, dev-branch]
       - build-frontend:
-          filters:
-            branches:
-              only: [master, dev-branch]
       - build-backend:
-          filters:
-            branches:
-              only: [master, dev-branch]
       - test-frontend:
           requires: [build-frontend]
       - test-backend:

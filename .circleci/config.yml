@@ -298,7 +298,7 @@ jobs:
       # Add ssh keys with fingerprint
       - add_ssh_keys:
           fingerprints:
-            - 'ab:52:25:68:df:4c:3a:d5:48:18:55:d8:f9:3b:df:de'
+            - '47:2a:1c:9c:cd:13:88:76:ca:ae:bc:41:5a:83:38:df'
       - run:
           name: Install dependencies
           command: |
@@ -329,7 +329,7 @@ jobs:
 
             cd ~/project/.circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml \
-            --key-file ~/.ssh/id_rsa_ab522568df4c3ad5481855d8f93bdfde
+            --key-file ~/.ssh/id_rsa_472a1c9ccd138876caaebc415a8338df
       # save backend back to workspace
       - persist_to_workspace:
           root: ~/
@@ -429,7 +429,7 @@ jobs:
       # Add ssh keys with fingerprint
       - add_ssh_keys:
           fingerprints:
-            - 'ab:52:25:68:df:4c:3a:d5:48:18:55:d8:f9:3b:df:de'
+            - '47:2a:1c:9c:cd:13:88:76:ca:ae:bc:41:5a:83:38:df'
       # attach workspace
       - attach_workspace:
           at: ~/
@@ -452,7 +452,7 @@ jobs:
             cd .circleci/ansible
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml \
-            --key-file ~/.ssh/id_rsa_ab522568df4c3ad5481855d8f93bdfde
+            --key-file ~/.ssh/id_rsa_472a1c9ccd138876caaebc415a8338df
       # Here's where you will add some code to rollback on failure
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}

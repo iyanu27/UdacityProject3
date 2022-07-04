@@ -637,6 +637,7 @@ workflows:
       #     filters:
       #       branches:
       #         only: [master, dev-branch]
+
       - build-frontend
       - build-backend
       - test-frontend:
@@ -667,7 +668,7 @@ workflows:
       - add-prometheus-node-exporter:
           requires: [cloudfront-update]
       - cleanup:
-      requires: [add-prometheus-node-exporter]
+          requires: [add-prometheus-node-exporter]
       # - approve:
       #     type: approval
       #     requires: [cloudfront-update]

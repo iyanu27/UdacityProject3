@@ -38,6 +38,6 @@
 
   roles:
     - configure-server
-    - configure-server-dependencies
-    - configure-prometheus-node-exporter
+    # - configure-server-dependencies
+    # - configure-prometheus-node-exporter
     # Your code here

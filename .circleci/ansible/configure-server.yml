@@ -24,7 +24,6 @@
 
   # Get the environment variables from CircleCI and add to the EC2 instance
   environment:
-    - NODE_ENV: production
     - ENVIRONMENT: production
     - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"
     - TYPEORM_ENTITIES: "{{ lookup('env', 'TYPEORM_ENTITIES')}}"
@@ -39,4 +38,6 @@
 
   roles:
     - configure-server
+    - configure-server-dependencies
+    - configure-prometheus-node-exporter
     # Your code here

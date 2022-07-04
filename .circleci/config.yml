@@ -547,7 +547,7 @@ jobs:
       # Checkout code from git
       - checkout
       - run:
-          name: Get old stack workflow id
+          name: Get Old Stack WorkflowID
           command: |
             # your code here
             export OldWorkflowID=$(

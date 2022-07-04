@@ -3,7 +3,7 @@ Description: >-
   Description: Creating an Amazon RDS DB instance
 Parameters:
   DBInstanceID:
-    Default: mypostgresdb
+    Default: postgres
     Description: My database instance
     Type: String
     # MinLength: '1'
@@ -42,6 +42,7 @@ Parameters:
     AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
     ConstraintDescription: must begin with a letter and contain only alphanumeric characters.
   DBPassword:
+    Default: 'mypassword'
     NoEcho: 'true'
     Description: Password MySQL database access
     Type: String
@@ -52,15 +53,15 @@ Parameters:
   VPC:
     Description: Deploy the instance in this VPC
     Type: String
-    Default: vpc-0666ab7d6fe9ca219
+    Default: vpc-0450e4f4ad108d4bc
   Subnet:
     Description: This subnet must already exist
     Type: String
-    Default: subnet-03eb430d72e402806
+    Default: subnet-05946e9a8e0224468
   AZ:
     Description: Choose an AZ that corresponds to the Subnet in the !Subnet section
     Type: String
-    Default: us-west-2c
+    Default: us-east-1c
   LocalIPAddress:
     Description: This is your local IP address, it will be used to configure security group ingress
     Type: String
